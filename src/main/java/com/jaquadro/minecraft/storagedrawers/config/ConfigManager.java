@@ -12,6 +12,7 @@ import net.minecraftforge.common.config.Configuration;
 import com.jaquadro.minecraft.storagedrawers.api.config.IAddonConfig;
 import com.jaquadro.minecraft.storagedrawers.api.config.IBlockConfig;
 import com.jaquadro.minecraft.storagedrawers.api.config.IIntegrationConfig;
+import com.jaquadro.minecraft.storagedrawers.api.config.IPacksConfig;
 import com.jaquadro.minecraft.storagedrawers.api.config.IUserConfig;
 import com.jaquadro.minecraft.storagedrawers.api.pack.BlockConfiguration;
 
@@ -81,6 +82,12 @@ public class ConfigManager {
         public boolean enableThermalFoundationIntegration;
         public boolean enableChiselIntegration;
         public boolean enableGTNHIntegration;
+        public boolean autoEnablePacks;
+        public boolean enableNaturaPack;
+        public boolean enableBopPack;
+        public boolean enableForestryPack;
+        public boolean enableErebusPack;
+        public boolean enableMiscPack;
         public boolean enableTape;
         public boolean enableFallbackRecipes;
         public boolean enableFramedDrawers;
@@ -181,6 +188,39 @@ public class ConfigManager {
         }
     }
 
+    private class PacksConfig implements IPacksConfig {
+
+        @Override
+        public boolean autoEnablePacks() {
+            return cache.autoEnablePacks;
+        }
+
+        @Override
+        public boolean isNaturaPackEnabled() {
+            return cache.enableNaturaPack;
+        }
+
+        @Override
+        public boolean isBopPackEnabled() {
+            return cache.enableBopPack;
+        }
+
+        @Override
+        public boolean isForestryPackEnabled() {
+            return cache.enableForestryPack;
+        }
+
+        @Override
+        public boolean isErebusPackEnabled() {
+            return cache.enableErebusPack;
+        }
+
+        @Override
+        public boolean isMiscPackEnabled() {
+            return cache.enableMiscPack;
+        }
+    }
+
     private class UserConfig implements IUserConfig {
 
         @Override
@@ -197,6 +237,11 @@ public class ConfigManager {
         public IIntegrationConfig integrationConfig() {
             return integrationConfig;
         }
+
+        @Override
+        public IPacksConfig packsConfig() {
+            return packsConfig;
+        }
     }
 
     private static final String LANG_PREFIX = "storageDrawers.config.";
@@ -207,6 +252,7 @@ public class ConfigManager {
     public final List<ConfigSection> sections = new ArrayList<ConfigSection>();
     public final ConfigSection sectionGeneral = new ConfigSection(sections, "general", "general");
     public final ConfigSection sectionIntegration = new ConfigSection(sections, "integration", "integration");
+    public final ConfigSection sectionPacks = new ConfigSection(sections, "packs", "packs");
     public final ConfigSection sectionBlocks = new ConfigSection(sections, "blocks", "blocks");
     public final ConfigSection sectionUpgrades = new ConfigSection(sections, "upgrades", "upgrades");
     public final ConfigSection sectionAddons = new ConfigSection(sections, "addons", "addons");
@@ -263,6 +309,7 @@ public class ConfigManager {
     public IAddonConfig addonConfig = new AddonConfig();
     public IBlockConfig blockConfig = new BlockConfig();
     public IIntegrationConfig integrationConfig = new IntegrationConfig();
+    public IPacksConfig packsConfig = new PacksConfig();
     public IUserConfig userConfig = new UserConfig();
 
     // private Property itemRenderType;
@@ -375,6 +422,23 @@ public class ConfigManager {
                 .setLanguageKey(LANG_PREFIX + "integration.enableChisel").setRequiresMcRestart(true).getBoolean();
         cache.enableGTNHIntegration = config.get(sectionIntegration.getQualifiedName(), "enableGTNH", true)
                 .setLanguageKey(LANG_PREFIX + "integration.enableGTNH").setRequiresMcRestart(true).getBoolean();
+
+        cache.autoEnablePacks = config.get(
+                sectionPacks.getQualifiedName(),
+                "autoEnablePacks",
+                true,
+                "If enabled, all explicit pack options will be ignored. Packs will be enabled if their corresponding mod is present (Not including misc pack)")
+                .setLanguageKey(LANG_PREFIX + "packs.autoEnable").setRequiresMcRestart(true).getBoolean();
+        cache.enableNaturaPack = config.get(sectionPacks.getQualifiedName(), "enableNatura", false)
+                .setLanguageKey(LANG_PREFIX + "packs.enableNatura").setRequiresMcRestart(true).getBoolean();
+        cache.enableBopPack = config.get(sectionPacks.getQualifiedName(), "enableBiomesOPlenty", false)
+                .setLanguageKey(LANG_PREFIX + "packs.enableBop").setRequiresMcRestart(true).getBoolean();
+        cache.enableForestryPack = config.get(sectionPacks.getQualifiedName(), "enableForestry", false)
+                .setLanguageKey(LANG_PREFIX + "packs.enableForestry").setRequiresMcRestart(true).getBoolean();
+        cache.enableErebusPack = config.get(sectionPacks.getQualifiedName(), "enableErebus", false)
+                .setLanguageKey(LANG_PREFIX + "packs.enableErebus").setRequiresMcRestart(true).getBoolean();
+        cache.enableMiscPack = config.get(sectionPacks.getQualifiedName(), "enableMisc", false)
+                .setLanguageKey(LANG_PREFIX + "packs.enableMisc").setRequiresMcRestart(true).getBoolean();
 
         config.get(sectionBlocksFullDrawers1x1.getQualifiedName(), "enabled", true)
                 .setLanguageKey(LANG_PREFIX + "prop.enabled").setRequiresMcRestart(true);
