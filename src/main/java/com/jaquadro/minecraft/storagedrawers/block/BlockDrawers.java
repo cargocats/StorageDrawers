@@ -394,6 +394,7 @@ public class BlockDrawers extends BlockContainer implements IExtendedBlockClickH
                     return true;
                 } else if (item.getItem() == ModItems.quantifyKey) {
                     tileDrawers.setIsQuantified(!tileDrawers.isQuantified());
+                    return true;
                 } else if (item.getItem() instanceof ItemPersonalKey) {
                     String securityKey = ((ItemPersonalKey) item.getItem())
                             .getSecurityProviderKey(item.getItemDamage());
