@@ -6,7 +6,11 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IFractionalDrawer;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.*;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.ILockable;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IQuantifiable;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IShroudable;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IVoidable;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
 
 public class CompDrawerData extends BaseDrawerData
         implements IFractionalDrawer, IVoidable, IShroudable, ILockable, IQuantifiable {

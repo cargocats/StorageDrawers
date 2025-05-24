@@ -7,7 +7,11 @@ import net.minecraftforge.common.MinecraftForge;
 
 import com.jaquadro.minecraft.storagedrawers.api.event.DrawerPopulatedEvent;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.*;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.ILockable;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IQuantifiable;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IShroudable;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IVoidable;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
 
 public class DrawerData extends BaseDrawerData implements IVoidable, IShroudable, ILockable, IQuantifiable {
 
