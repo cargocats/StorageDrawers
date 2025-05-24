@@ -142,11 +142,13 @@ public class CompDrawerData extends BaseDrawerData
 
     @Override
     public boolean isQuantified() {
-        return central.isQuantified();
+        return central.isQuantifiedSlot(slot);
     }
 
     @Override
-    public void setIsQuantified(boolean state) {};
+    public boolean setIsQuantified(boolean state) {
+        return central.setIsSlotQuantifiable(slot, state);
+    };
 
     @Override
     public boolean isLocked(LockAttribute attr) {

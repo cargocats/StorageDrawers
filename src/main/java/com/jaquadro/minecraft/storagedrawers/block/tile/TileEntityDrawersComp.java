@@ -650,8 +650,14 @@ public class TileEntityDrawersComp extends TileEntityDrawers {
         }
 
         @Override
-        public boolean isQuantified() {
-            return TileEntityDrawersComp.this.isQuantified();
+        public boolean isQuantifiedSlot(int slot) {
+            return isQuantified();
+        }
+
+        @Override
+        public boolean setIsSlotQuantifiable(int slot, boolean state) {
+            setIsQuantified(state);
+            return true;
         }
 
         @Override

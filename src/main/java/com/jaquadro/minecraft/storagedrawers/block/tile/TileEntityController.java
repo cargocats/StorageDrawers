@@ -307,8 +307,13 @@ public class TileEntityController extends TileEntity
                 if (!SecurityManager.hasAccess(profile, (IProtectable) record.storage)) continue;
             }
 
-            if (record.storage instanceof IQuantifiable) {
-                IQuantifiable quantifiableStorage = (IQuantifiable) storage;
+            for (int i = 0, n = record.storage.getDrawerCount(); i < n; i++) {
+                if (!record.storage.isDrawerEnabled(i)) continue;
+
+                IDrawer drawer = record.storage.getDrawer(i);
+                if (!(drawer instanceof IQuantifiable)) continue;
+
+                IQuantifiable quantifiableStorage = (IQuantifiable) drawer;
                 if (template == null) {
                     template = quantifiableStorage;
                     state = !template.isQuantified();

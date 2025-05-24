@@ -38,7 +38,9 @@ public interface ICentralInventory {
 
     public boolean setIsSlotShrouded(int slot, boolean state);
 
-    public boolean isQuantified();
+    public boolean isQuantifiedSlot(int slot);
+
+    public boolean setIsSlotQuantifiable(int slot, boolean state);
 
     public boolean isLocked(int slot, LockAttribute attr);
 
