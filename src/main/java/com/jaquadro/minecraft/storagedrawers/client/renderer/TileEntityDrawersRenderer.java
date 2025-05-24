@@ -2,11 +2,9 @@ package com.jaquadro.minecraft.storagedrawers.client.renderer;
 
 import java.util.List;
 
-import com.jaquadro.minecraft.storagedrawers.util.CountFormatter;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -18,7 +16,6 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -36,6 +33,7 @@ import com.jaquadro.minecraft.storagedrawers.api.render.IRenderLabel;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
 import com.jaquadro.minecraft.storagedrawers.block.BlockDrawers;
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
+import com.jaquadro.minecraft.storagedrawers.util.CountFormatter;
 
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.relauncher.Side;
@@ -389,21 +387,37 @@ public class TileEntityDrawersRenderer extends TileEntitySpecialRenderer {
                 break;
             case 4:
                 switch (slot) {
-                    case 0: offsetX = 4;  offsetY = 6;  break;
-                    case 1: offsetX = 4; break;
-                    case 2: offsetX = 12; offsetY = 6;  break;
-                    case 3: offsetX = 12; break;
+                    case 0:
+                        offsetX = 4;
+                        offsetY = 6;
+                        break;
+                    case 1:
+                        offsetX = 4;
+                        break;
+                    case 2:
+                        offsetX = 12;
+                        offsetY = 6;
+                        break;
+                    case 3:
+                        offsetX = 12;
+                        break;
                 }
                 break;
         }
 
         if (block.halfDepth) depth += 1;
 
-        renderText(CountFormatter.format(this.func_147498_b(), tile.getDrawer(slot)), side, offsetX, offsetY, depth - 1f, alpha);
+        renderText(
+                CountFormatter.format(this.func_147498_b(), tile.getDrawer(slot)),
+                side,
+                offsetX,
+                offsetY,
+                depth - 1f,
+                alpha);
     }
 
-
-    private void renderText(String renderString, ForgeDirection side, float offsetX, float offsetY, float offsetZ, float alpha) {
+    private void renderText(String renderString, ForgeDirection side, float offsetX, float offsetY, float offsetZ,
+            float alpha) {
         int stringWidth = this.func_147498_b().getStringWidth(renderString);
 
         GL11.glPushMatrix();
@@ -415,7 +429,8 @@ public class TileEntityDrawersRenderer extends TileEntitySpecialRenderer {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-        this.func_147498_b().drawString(renderString, -stringWidth / 2, 0, (int)(255 * alpha) << 24 | 255 << 16 | 255 << 8 | 255);
+        this.func_147498_b()
+                .drawString(renderString, -stringWidth / 2, 0, (int) (255 * alpha) << 24 | 255 << 16 | 255 << 8 | 255);
 
         GL11.glDepthMask(true);
         GL11.glDisable(GL11.GL_BLEND);

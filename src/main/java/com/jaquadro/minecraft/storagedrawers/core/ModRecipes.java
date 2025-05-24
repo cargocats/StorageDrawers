@@ -399,7 +399,8 @@ public class ModRecipes {
         }
 
         if (config.cache.enableQuantifyUpgrades) {
-            GameRegistry.addShapelessRecipe(new ItemStack(ModItems.quantifyKey), ModItems.upgradeLock, Items.writable_book);
+            GameRegistry
+                    .addShapelessRecipe(new ItemStack(ModItems.quantifyKey), ModItems.upgradeLock, Items.writable_book);
         }
 
         if (config.cache.enableTape) {

@@ -1,6 +1,5 @@
 package com.jaquadro.minecraft.storagedrawers.storage;
 
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -8,6 +7,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 import com.jaquadro.minecraft.storagedrawers.api.event.DrawerPopulatedEvent;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.*;
 
 public class DrawerData extends BaseDrawerData implements IVoidable, IShroudable, ILockable, IQuantifiable {
 
@@ -205,7 +205,9 @@ public class DrawerData extends BaseDrawerData implements IVoidable, IShroudable
     }
 
     @Override
-    public boolean isQuantified() { return storageProvider.isQuantified(slot); }
+    public boolean isQuantified() {
+        return storageProvider.isQuantified(slot);
+    }
 
     @Override
     public void setIsQuantified(boolean state) {}

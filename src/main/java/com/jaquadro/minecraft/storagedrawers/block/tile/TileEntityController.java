@@ -14,7 +14,6 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.UUID;
 
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.*;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -35,6 +34,7 @@ import com.jaquadro.minecraft.storagedrawers.api.storage.IFractionalDrawer;
 import com.jaquadro.minecraft.storagedrawers.api.storage.INetworked;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IPriorityGroup;
 import com.jaquadro.minecraft.storagedrawers.api.storage.ISmartGroup;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.*;
 import com.jaquadro.minecraft.storagedrawers.block.BlockDrawers;
 import com.jaquadro.minecraft.storagedrawers.block.BlockSlave;
 import com.jaquadro.minecraft.storagedrawers.security.SecurityManager;

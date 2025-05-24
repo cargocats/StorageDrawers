@@ -1,14 +1,15 @@
 package com.jaquadro.minecraft.storagedrawers.storage;
 
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IFractionalDrawer;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.*;
 
-public class CompDrawerData extends BaseDrawerData implements IFractionalDrawer, IVoidable, IShroudable, ILockable, IQuantifiable {
+public class CompDrawerData extends BaseDrawerData
+        implements IFractionalDrawer, IVoidable, IShroudable, ILockable, IQuantifiable {
 
     private static final ItemStack nullStack = new ItemStack((Item) null);
 
