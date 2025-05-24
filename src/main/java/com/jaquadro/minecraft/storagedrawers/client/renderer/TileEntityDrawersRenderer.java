@@ -405,14 +405,12 @@ public class TileEntityDrawersRenderer extends TileEntitySpecialRenderer {
                 break;
         }
 
-        if (block.halfDepth) depth += 1;
-
         renderText(
                 CountFormatter.format(this.func_147498_b(), tile.getDrawer(slot)),
                 side,
                 offsetX,
                 offsetY,
-                depth - 1f,
+                block.halfDepth ? depth : depth - 1f,
                 alpha);
     }
 
