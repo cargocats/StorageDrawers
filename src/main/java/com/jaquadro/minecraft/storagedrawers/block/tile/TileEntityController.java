@@ -14,6 +14,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.UUID;
 
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.*;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -34,11 +35,6 @@ import com.jaquadro.minecraft.storagedrawers.api.storage.IFractionalDrawer;
 import com.jaquadro.minecraft.storagedrawers.api.storage.INetworked;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IPriorityGroup;
 import com.jaquadro.minecraft.storagedrawers.api.storage.ISmartGroup;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.ILockable;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IProtectable;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IShroudable;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IVoidable;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
 import com.jaquadro.minecraft.storagedrawers.block.BlockDrawers;
 import com.jaquadro.minecraft.storagedrawers.block.BlockSlave;
 import com.jaquadro.minecraft.storagedrawers.security.SecurityManager;
@@ -296,6 +292,29 @@ public class TileEntityController extends TileEntity
                 }
 
                 shroudableStorage.setIsShrouded(state);
+            }
+        }
+    }
+
+    public void toggleQuantify(GameProfile profile) {
+        IQuantifiable template = null;
+        boolean state = false;
+
+        for (StorageRecord record : storage.values()) {
+            if (record.storage == null) continue;
+
+            if (record.storage instanceof IProtectable) {
+                if (!SecurityManager.hasAccess(profile, (IProtectable) record.storage)) continue;
+            }
+
+            if (record.storage instanceof IQuantifiable) {
+                IQuantifiable quantifiableStorage = (IQuantifiable) storage;
+                if (template == null) {
+                    template = quantifiableStorage;
+                    state = !template.isQuantified();
+                }
+
+                quantifiableStorage.setIsQuantified(state);
             }
         }
     }
