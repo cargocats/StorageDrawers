@@ -419,11 +419,11 @@ public class TileEntityDrawersRenderer extends TileEntitySpecialRenderer {
         int stringWidth = this.func_147498_b().getStringWidth(renderString);
 
         GL11.glPushMatrix();
+
         this.alignRendering(side);
         this.moveRendering(0.125f, offsetX, offsetY, offsetZ);
 
         GL11.glDepthMask(false);
-        GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
@@ -432,6 +432,7 @@ public class TileEntityDrawersRenderer extends TileEntitySpecialRenderer {
 
         GL11.glDepthMask(true);
         GL11.glDisable(GL11.GL_BLEND);
+
         GL11.glPopMatrix();
     }
 
