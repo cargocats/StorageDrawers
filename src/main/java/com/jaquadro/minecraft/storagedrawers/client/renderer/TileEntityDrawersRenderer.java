@@ -2,6 +2,7 @@ package com.jaquadro.minecraft.storagedrawers.client.renderer;
 
 import java.util.List;
 
+import cpw.mods.fml.common.FMLLog;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
@@ -383,7 +384,14 @@ public class TileEntityDrawersRenderer extends TileEntitySpecialRenderer {
             case 1:
                 break;
             case 2:
-                offsetY = (slot == 0) ? 6 : 14;
+                offsetY = (slot == 0) ? 7 : 14;
+                break;
+            case 3:
+                switch (slot) {
+                    case 0: offsetY = 7; break;
+                    case 1: offsetX = 4; break;
+                    case 2: offsetX = 12; break;
+                }
                 break;
             case 4:
                 switch (slot) {
