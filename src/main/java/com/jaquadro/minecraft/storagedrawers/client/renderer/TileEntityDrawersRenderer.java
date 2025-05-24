@@ -5,6 +5,8 @@ import java.util.List;
 import com.jaquadro.minecraft.storagedrawers.util.CountFormatter;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -16,6 +18,7 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -268,11 +271,24 @@ public class TileEntityDrawersRenderer extends TileEntitySpecialRenderer {
             // Swallow exception
         }
 
-        if (StorageDrawers.config.cache.enableQuantifyUpgrades) {
-            for (int i = 0; i < tileDrawers.getDrawerCount(); i++) {
-                if (!tileDrawers.isDrawerEnabled(i)) continue;
+        if (StorageDrawers.config.cache.enableQuantifyUpgrades && tileDrawers.isQuantified()) {
+            EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+            double dx = tile.xCoord + 0.5 - player.posX;
+            double dy = tile.yCoord + 0.5 - player.posY;
+            double dz = tile.zCoord + 0.5 - player.posZ;
+            double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-                drawDrawerTexts(tileDrawers, i, side, depth);
+            float alpha = 1.0f;
+            if (distance > 4.0) {
+                alpha = Math.max(1.0f - (float) ((distance - 4.0) / 6.0), 0.05f);
+            }
+
+            if (distance < 10.0) {
+                for (int i = 0; i < tileDrawers.getDrawerCount(); i++) {
+                    if (!tileDrawers.isDrawerEnabled(i)) continue;
+
+                    drawDrawerTexts(tileDrawers, i, side, depth, alpha);
+                }
             }
         }
 
@@ -358,7 +374,7 @@ public class TileEntityDrawersRenderer extends TileEntitySpecialRenderer {
         }
     }
 
-    private void drawDrawerTexts(TileEntityDrawers tile, int slot, ForgeDirection side, float depth) {
+    private void drawDrawerTexts(TileEntityDrawers tile, int slot, ForgeDirection side, float depth, float alpha) {
         BlockDrawers block = (BlockDrawers) tile.getBlockType();
         int drawerCount = tile.getDrawerCount();
 
@@ -383,11 +399,11 @@ public class TileEntityDrawersRenderer extends TileEntitySpecialRenderer {
 
         if (block.halfDepth) depth += 1;
 
-        renderText(CountFormatter.format(this.func_147498_b(), tile.getDrawer(slot)), side, offsetX, offsetY, depth - 1f);
+        renderText(CountFormatter.format(this.func_147498_b(), tile.getDrawer(slot)), side, offsetX, offsetY, depth - 1f, alpha);
     }
 
 
-    private void renderText(String renderString, ForgeDirection side, float offsetX, float offsetY, float offsetZ) {
+    private void renderText(String renderString, ForgeDirection side, float offsetX, float offsetY, float offsetZ, float alpha) {
         int stringWidth = this.func_147498_b().getStringWidth(renderString);
 
         GL11.glPushMatrix();
@@ -395,11 +411,14 @@ public class TileEntityDrawersRenderer extends TileEntitySpecialRenderer {
         this.moveRendering(0.125f, offsetX, offsetY, offsetZ);
 
         GL11.glDepthMask(false);
-
         GL11.glDisable(GL11.GL_LIGHTING);
-        this.func_147498_b().drawString(renderString, -stringWidth / 2, 0, 0xFFFFFFFF);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+        this.func_147498_b().drawString(renderString, -stringWidth / 2, 0, (int)(255 * alpha) << 24 | 255 << 16 | 255 << 8 | 255);
 
         GL11.glDepthMask(true);
+        GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
     }
 
