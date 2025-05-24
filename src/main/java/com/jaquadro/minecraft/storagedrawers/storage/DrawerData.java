@@ -208,9 +208,7 @@ public class DrawerData extends BaseDrawerData implements IVoidable, IShroudable
     public boolean isQuantified() { return storageProvider.isQuantified(slot); }
 
     @Override
-    public boolean setIsQuantified(boolean state) {
-        return storageProvider.setIsQuantified(slot, state);
-    }
+    public void setIsQuantified(boolean state) {}
 
     @Override
     public boolean isLocked(LockAttribute attr) {
