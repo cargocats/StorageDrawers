@@ -2,7 +2,7 @@ package com.jaquadro.minecraft.storagedrawers.client.renderer;
 
 import java.util.List;
 
-import cpw.mods.fml.common.FMLLog;
+import com.jaquadro.minecraft.storagedrawers.util.CountFormatter;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -25,7 +25,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import org.apache.logging.log4j.Level;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -272,6 +271,7 @@ public class TileEntityDrawersRenderer extends TileEntitySpecialRenderer {
         if (StorageDrawers.config.cache.enableQuantifyUpgrades) {
             for (int i = 0; i < tileDrawers.getDrawerCount(); i++) {
                 if (!tileDrawers.isDrawerEnabled(i)) continue;
+
                 drawDrawerTexts(tileDrawers, i, side, depth);
             }
         }
@@ -359,49 +359,40 @@ public class TileEntityDrawersRenderer extends TileEntitySpecialRenderer {
     }
 
     private void drawDrawerTexts(TileEntityDrawers tile, int slot, ForgeDirection side, float depth) {
+        BlockDrawers block = (BlockDrawers) tile.getBlockType();
         int drawerCount = tile.getDrawerCount();
 
-        BlockDrawers block = (BlockDrawers) tile.getBlockType();
-        float xunit = getXOffset(drawerCount, slot);
-        float yunit = getYOffset(drawerCount, slot);
-        float zunit = block.getTrimDepth();
+        float offsetX = 8;
+        float offsetY = 14;
 
-        float xc = 0, zc = 0;
-        float itemDepth = depth + .001f;
-
-        switch (tile.getDirection()) {
-            case 3:
-                xc = xunit;
-                zc = itemDepth - zunit;
+        switch (drawerCount) {
+            case 1:
                 break;
             case 2:
-                xc = 1 - xunit;
-                zc = 1 - itemDepth + zunit;
-                break;
-            case 5:
-                xc = itemDepth - zunit;
-                zc = 1 - xunit;
+                offsetY = (slot == 0) ? 6 : 14;
                 break;
             case 4:
-                xc = 1 - itemDepth + zunit;
-                zc = xunit;
+                switch (slot) {
+                    case 0: offsetX = 4;  offsetY = 6;  break;
+                    case 1: offsetX = 4; break;
+                    case 2: offsetX = 12; offsetY = 6;  break;
+                    case 3: offsetX = 12; break;
+                }
                 break;
         }
 
-        float yAdj = 0;
-        if (drawerCount == 2 || drawerCount == 4) yAdj = -.5f;
-        else if (drawerCount == 1) yAdj = -3f;
+        if (block.halfDepth) depth += 1;
 
-        renderText(
-                String.valueOf(slot + 1), side,
-                xc, unit * (yunit + 0.75f + yAdj), zc
-        );
+        renderText(CountFormatter.format(this.func_147498_b(), tile.getDrawer(slot)), side, offsetX, offsetY, depth - 1f);
     }
+
 
     private void renderText(String renderString, ForgeDirection side, float offsetX, float offsetY, float offsetZ) {
         int stringWidth = this.func_147498_b().getStringWidth(renderString);
+
+        GL11.glPushMatrix();
         this.alignRendering(side);
-        this.moveRendering(0.125f, offsetX , offsetY, offsetZ);
+        this.moveRendering(0.125f, offsetX, offsetY, offsetZ);
 
         GL11.glDepthMask(false);
 
@@ -409,6 +400,7 @@ public class TileEntityDrawersRenderer extends TileEntitySpecialRenderer {
         this.func_147498_b().drawString(renderString, -stringWidth / 2, 0, 0xFFFFFFFF);
 
         GL11.glDepthMask(true);
+        GL11.glPopMatrix();
     }
 
     private void renderFancyItem(ItemStack itemStack, TileEntityDrawers tile, int slot, ForgeDirection side,
