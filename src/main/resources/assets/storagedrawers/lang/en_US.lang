@@ -169,6 +169,7 @@ storageDrawers.config.prop.enableIndicatorUpgrades=Enable Indicator Upgrades
 storageDrawers.config.prop.enableStorageUpgrades=Enable Storage Upgrades
 storageDrawers.config.prop.enableLockUpgrades=Enable Drawer Locking
 storageDrawers.config.prop.enableShroudUpgrades=Enable Item Concealing
+storageDrawers.config.prop.enableQuantifyUpgrades=Enable Show Drawer Quantities
 storageDrawers.config.prop.enablePersonalUpgrades=Enable Access Protection
 storageDrawers.config.prop.enableVoidUpgrades=Enable Void Upgrade
 storageDrawers.config.prop.enableCreativeUpgrades=Enable Creative Upgrade
