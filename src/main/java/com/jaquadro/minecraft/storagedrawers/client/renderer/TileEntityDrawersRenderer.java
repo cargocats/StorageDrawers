@@ -410,7 +410,7 @@ public class TileEntityDrawersRenderer extends TileEntitySpecialRenderer {
                 side,
                 offsetX,
                 offsetY,
-                block.halfDepth ? depth : depth - 1.0f,
+                1f - depth + block.getTrimDepth() - 0.005f,
                 alpha);
     }
 
