@@ -383,7 +383,7 @@ public class TileEntityDrawersRenderer extends TileEntitySpecialRenderer {
             case 1:
                 break;
             case 2:
-                offsetY = (slot == 0) ? 7 : 14;
+                offsetY = (slot == 0) ? 6 : 14;
                 break;
             case 3:
                 switch (slot) {
