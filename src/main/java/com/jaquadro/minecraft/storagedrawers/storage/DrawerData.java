@@ -1,5 +1,6 @@
 package com.jaquadro.minecraft.storagedrawers.storage;
 
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -7,12 +8,8 @@ import net.minecraftforge.common.MinecraftForge;
 
 import com.jaquadro.minecraft.storagedrawers.api.event.DrawerPopulatedEvent;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.ILockable;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IShroudable;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IVoidable;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.LockAttribute;
 
-public class DrawerData extends BaseDrawerData implements IVoidable, IShroudable, ILockable {
+public class DrawerData extends BaseDrawerData implements IVoidable, IShroudable, ILockable, IQuantifiable {
 
     private static final ItemStack nullStack = new ItemStack((Item) null);
 
@@ -205,6 +202,14 @@ public class DrawerData extends BaseDrawerData implements IVoidable, IShroudable
     @Override
     public boolean setIsShrouded(boolean state) {
         return storageProvider.setIsShrouded(slot, state);
+    }
+
+    @Override
+    public boolean isQuantified() { return storageProvider.isQuantified(slot); }
+
+    @Override
+    public boolean setIsQuantified(boolean state) {
+        return storageProvider.setIsQuantified(slot, state);
     }
 
     @Override
